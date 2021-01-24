@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: "3.7"
+services:
+  db:
+    image: postgres:9.6
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test
+      - PGDATA=/var/lib/postgresql/data
+    restart: always
+    container_name: postgres
+  pgadmin:
+    image: dpage/pgadmin4:4.29
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=80
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - "db:pgsql-server"
+    container_name: pgadmin4
+  api:
+    build:
+      context: ./
+      dockerfile: DockerFile
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    restart: on-failure
+    container_name: api
+
+volumes:
+  db-data:
+  pgadmin-data:

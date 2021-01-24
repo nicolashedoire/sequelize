@@ -1,0 +1,25 @@
+# pull official base image
+FROM node:12.16.2-alpine 
+
+RUN mkdir -p /usr/src/app
+RUN chmod -R 777 /usr/src/app
+# set working directory
+WORKDIR /usr/src/app
+
+# install app dependencies
+COPY package.json /usr/src/app
+COPY package-lock.json /usr/src/app
+COPY .env /usr/src/app
+RUN npm ci
+
+# add db files
+COPY .sequelizerc /usr/src/app
+COPY ./database/ /usr/src/app
+
+# add app
+COPY ./src/ /usr/src/app
+
+EXPOSE 5000
+
+# start app
+CMD ["node", "index.js"]
