@@ -1,6 +1,11 @@
-# Sequelize
+# Sequelize + NodeJS server + websocket
 
 <p>Ce projet à pour but de mettre en place un setup avec sequelize et docker.</p>
+
+<p>Vous avez accés à un serveur NodeJS disponible sur cette url http://localhost:5000.
+Le Front est connecté via websocket (socket.io).</p>
+
+<p>Une partie CLI est aussi disponible</p>
 
 ## prérequis
 
@@ -330,8 +335,3 @@ module.exports = {
 ````
 sequelize db:seed:all
 ````
-
-
-## Sources
-
-https://linuxhint.com/postgresql_docker/
